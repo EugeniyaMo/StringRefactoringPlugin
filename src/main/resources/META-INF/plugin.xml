@@ -28,13 +28,10 @@
 
     </extensions>
     <actions>
-        <action id="StringAction" class="com.eugeniyamo.stringrefactoringplugin.StringAction" text="String Action"
-                description="Refactor string for special notation">
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH" second-keystroke="ctrl R"/>
-        </action>
         <action id="RefactorStringAction" class="com.eugeniyamo.stringrefactoringplugin.RefactorStringAction"
                 text="Refactor String Action" description="Refactor strings for special notations">
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH" second-keystroke="ctrl M"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
 </idea-plugin>

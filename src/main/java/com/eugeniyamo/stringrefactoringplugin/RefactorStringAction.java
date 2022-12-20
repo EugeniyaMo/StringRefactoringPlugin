@@ -6,11 +6,11 @@ import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.util.PairFunction;
 
 import javax.swing.*;
-
 public class RefactorStringAction extends EditorAction {
     public RefactorStringAction() {
         this(new RefactorHandler());
@@ -30,6 +30,7 @@ public class RefactorStringAction extends EditorAction {
             String[] selectedWords = getWordsFromLine(selectionModel.getSelectedText());
             String[] variants = {"camelCase", "PascalCase", "snake_case", "kebab-case"};
             boolean checked = true;
+
             final int indexOfCase = Messages.showCheckboxMessageDialog(
                     "Select the desired option",
                     "Modification",
