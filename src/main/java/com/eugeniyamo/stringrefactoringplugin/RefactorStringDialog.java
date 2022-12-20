@@ -8,8 +8,22 @@ public class RefactorStringDialog extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField writeNameOfVariableTextField;
-    private JComboBox comboBox1;
-    private JTextField textField1;
+    private JComboBox comboBox;
+    private JTextField textField;
+
+    private boolean okey = false;
+
+    public JComboBox getComboBox() {
+        return comboBox;
+    }
+
+    public JTextField getTextField() {
+        return textField;
+    }
+
+    public boolean isOkey() {
+        return okey;
+    }
 
     public RefactorStringDialog() {
         setContentPane(contentPane);
@@ -45,7 +59,7 @@ public class RefactorStringDialog extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        okey = true;
         dispose();
     }
 

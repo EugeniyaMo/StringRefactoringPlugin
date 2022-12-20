@@ -6,9 +6,6 @@ import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.util.PairFunction;
 
 import javax.swing.*;
 public class RefactorStringAction extends EditorAction {
@@ -27,38 +24,34 @@ public class RefactorStringAction extends EditorAction {
         @Override
         public void executeWriteAction(Editor editor, DataContext dataContext) {
             SelectionModel selectionModel = editor.getSelectionModel();
-            String[] selectedWords = getWordsFromLine(selectionModel.getSelectedText());
+            RefactorStringDialog dialog = new RefactorStringDialog();
+            dialog.pack();
+            dialog.setVisible(true);
+            String string[] = getWordsFromLine(dialog.getTextField().getText());
             String[] variants = {"camelCase", "PascalCase", "snake_case", "kebab-case"};
             boolean checked = true;
 
-            final int indexOfCase = Messages.showCheckboxMessageDialog(
-                    "Select the desired option",
-                    "Modification",
-                    variants,
-                    "Change the notation", checked, 1, 1,
-                    Messages.getInformationIcon(), new PairFunction<Integer, JCheckBox, Integer>() {
-                        @Override
-                        public Integer fun(Integer exitCode, JCheckBox cb) {
-                            return exitCode;
-                        }
-                    });
+            int indexOfCase = dialog.getComboBox().getSelectedIndex();
+
             String replacedString = "";
             switch(indexOfCase) {
                 case 0:
-                    replacedString = makeCamelCase(selectedWords);
+                    replacedString = makeCamelCase(string);
                     break;
                 case 1:
-                    replacedString = makePascalCase(selectedWords);
+                    replacedString = makePascalCase(string);
                     break;
                 case 2:
-                    replacedString = makeSnakeCase(selectedWords);
+                    replacedString = makeSnakeCase(string);
                     break;
                 case 3:
-                    replacedString = makeKebabCase(selectedWords);;
+                    replacedString = makeKebabCase(string);;
                     break;
             }
-            editor.getDocument().replaceString(selectionModel.getSelectionStart(), selectionModel.getSelectionEnd(),
-                    replacedString);
+            if (dialog.isOkey()) {
+                editor.getDocument().replaceString(selectionModel.getSelectionStart(), selectionModel.getSelectionEnd(),
+                        replacedString);
+            }
         }
 
         private String[] getWordsFromLine(String string) {
